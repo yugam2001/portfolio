@@ -2,15 +2,11 @@
 
 import Image from "next/image";
 import { RobotOrbit } from "./robot-companion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { createRobotRenderer } from "@/lib/robot-renderer";
 
-export function EyeTrackingStudy({ hero = false }: { hero?: boolean }) {
+export function HeroRobot() {
   const canvasRef=useRef<HTMLCanvasElement>(null);
-  const controller=useRef<{ aim: (x:number,y:number)=>void; blink: ()=>void } | null>(null);
-  const enabledRef=useRef(true);
-  const [enabled,setEnabled]=useState(true);
-  const [status,setStatus]=useState("Loading eye study…");
   useEffect(()=> {
     const canvas=canvasRef.current;
     if(!canvas) return;
@@ -47,9 +43,8 @@ export function EyeTrackingStudy({ hero = false }: { hero?: boolean }) {
       tx=preference.matches?-.85:a;ty=preference.matches?-.3:b;
       if(renderer&&!frame&&!document.hidden&&visible) {last=0;frame=requestAnimationFrame(draw);}
     };
-    controller.current={aim,blink:()=>{nextBlink=performance.now();aim(tx,ty);}};
     const move=(event:PointerEvent)=> {
-      if(!enabledRef.current||preference.matches||event.pointerType === "touch") return;
+      if(preference.matches||event.pointerType === "touch") return;
       clearTimeout(idleTimer);
       idleTimer=setTimeout(()=>aim(-.85,-.3),2400);
       const rect=canvas.getBoundingClientRect();
@@ -60,19 +55,19 @@ export function EyeTrackingStudy({ hero = false }: { hero?: boolean }) {
     const reset=()=>{clearTimeout(idleTimer);aim(-.85,-.3);};
     const out=(event:PointerEvent)=> {if(!event.relatedTarget) reset();};
     const visibility=()=> {if(document.hidden){cancelAnimationFrame(frame);frame=0;}else reset();};
-    const reduced=()=> {reset();setStatus(preference.matches?"Reduced motion: static gaze":"Eye tracking ready · blinking and smile active");};
-    const lost=()=> {cancelAnimationFrame(frame);frame=0;canvas.style.opacity="0";setStatus("Graphics interrupted — showing still artwork. Reload to retry.");};
+    const reduced=()=> {reset();};
+    const lost=()=> {cancelAnimationFrame(frame);frame=0;canvas.style.opacity="0";};
     const load=()=> {
       if(disposed || !image.complete || !image.naturalWidth || !underlay.complete || !underlay.naturalWidth || !closed.complete || !closed.naturalWidth || renderer) return;
       try {renderer=createRobotRenderer(canvas,image,underlay,closed);renderer.draw(-.85,-.3,.3);canvas.style.opacity="1";reduced();}
-      catch {setStatus("Graphics unavailable — showing still artwork.");}
+      catch {canvas.style.opacity="0";}
     };
     const observer=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;if(visible)reset();else{cancelAnimationFrame(frame);frame=0;} });
     observer.observe(canvas);
     image.onload=load;
     underlay.onload=load;
     closed.onload=load;
-    image.onerror=underlay.onerror=closed.onerror=()=> {if(!disposed)setStatus("Could not load the eye study. Reload to retry.");};
+    image.onerror=underlay.onerror=closed.onerror=()=> {if(!disposed)canvas.style.opacity="0";};
     image.src="/images/hero-android-b.png";
     underlay.src="/images/robot-eye-underlay-b.png";
     closed.src="/images/robot-closed-eyes-b.png";
@@ -84,7 +79,7 @@ export function EyeTrackingStudy({ hero = false }: { hero?: boolean }) {
     preference.addEventListener("change",reduced);
     canvas.addEventListener("webglcontextlost",lost);
     return ()=> {
-      disposed=true;clearTimeout(idleTimer);observer.disconnect();cancelAnimationFrame(frame);renderer?.destroy();controller.current=null;
+      disposed=true;clearTimeout(idleTimer);observer.disconnect();cancelAnimationFrame(frame);renderer?.destroy();
       image.onload=null;image.onerror=null;underlay.onload=null;underlay.onerror=null;closed.onload=null;closed.onerror=null;
       window.removeEventListener("pointermove",move);window.removeEventListener("pointerout",out);
       window.removeEventListener("blur",reset);window.removeEventListener("resize",reset);
@@ -93,17 +88,10 @@ export function EyeTrackingStudy({ hero = false }: { hero?: boolean }) {
     };
   },[]);
   return <>
-    <div className={hero ? "hero-robot-art" : "eye-study-stage"}>
+    <div className="hero-robot-art">
       <Image src="/images/hero-android-b.png" alt="Silver android with blue eyes" width={1374} height={1145} preload sizes="(max-width: 900px) 100vw, 900px" />
       <canvas ref={canvasRef} aria-hidden="true" />
-      {hero && <RobotOrbit />}
+      <RobotOrbit />
     </div>
-    {!hero && <div className="eye-study-controls">
-      <p role="status">{status}</p>
-      <button type="button" aria-pressed={!enabled} onClick={()=>{enabledRef.current=!enabled;setEnabled(!enabled);controller.current?.aim(-.85,-.3);}}>{enabled?"Pause tracking":"Resume tracking"}</button>
-      <button type="button" onClick={()=>controller.current?.blink()}>Preview blink</button>
-      <span>Test a direction:</span>
-      {([['Left',-1,0],['Up',0,-1],['Centre',0,0],['Right',1,0],['Down',0,1]] as const).map(([label,x,y])=><button key={label} type="button" onClick={()=>{enabledRef.current=false;setEnabled(false);controller.current?.aim(x,y);}}>{label}</button>)}
-    </div>}
   </>;
 }

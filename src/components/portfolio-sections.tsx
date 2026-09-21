@@ -23,7 +23,7 @@ export function About() {
       <div className="about-story" data-reveal>
         <p>Nearly four years in professional software development have taken me from MERN applications to production systems, third-party integrations, and the details that make a product work in the real world.</p>
         <p>I’ve worked across frontend and backend, discussed requirements with clients, reviewed code, and mentored junior developers. I care about understanding the problem as much as writing the solution.</p>
-        <p>My next chapter is Melbourne: a Master of Artificial Intelligence at La Trobe University, beginning October 2026. I’m bringing my software engineering foundation into practical AI products.</p>
+        <p>My next chapter is Melbourne: a Master of Artificial Intelligence at La Trobe University, beginning November 2026. I’m bringing my software engineering foundation into practical AI products.</p>
       </div>
     </div>
     <div className="principle-grid">
@@ -57,19 +57,27 @@ export function Experience() {
 export function Projects() {
   return <div className="section-inner">
     <Heading number="03" label="Selected work" description="One focused product. A practical step toward software that uses AI with purpose.">Ideas, made<br /><em>real.</em></Heading>
-    <article className="project-feature" data-reveal>
-      <div className="project-art" aria-label="Conceptual diagram of ALTAIR’s roadmap generation architecture">
-        <span className="diagram-caption">ALTAIR / CONCEPTUAL SYSTEM MAP</span>
-        <div className="orbital-system" aria-hidden="true"><div className="orbit orbit-one" /><div className="orbit orbit-two" /><div className="orbit orbit-three" /><div className="altair-star">✦</div></div>
-        <div className="system-flow"><span>Journey context</span><i>↓</i><span>Structured AI output</span><i>↓</i><span>Validated roadmap</span></div>
-        <span className="diagram-footer">A direction. A structure. A way forward.</span>
+    <article className="altair-feature" data-reveal>
+      <div className="altair-cover">
+        <div className="altair-cover-meta"><span>01 / SELECTED BUILD</span><span>EDUCATION & CAREER</span></div>
+        <svg className="altair-landscape" viewBox="0 0 1000 540" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="altair-route" x1="220" y1="540" x2="740" y2="90" gradientUnits="userSpaceOnUse"><stop stopColor="#788acf" stopOpacity="0" /><stop offset=".6" stopColor="#c2d3ff" /><stop offset="1" stopColor="#ffffff" /></linearGradient>
+            <radialGradient id="altair-halo"><stop stopColor="#b9caff" stopOpacity=".45" /><stop offset="1" stopColor="#718eff" stopOpacity="0" /></radialGradient>
+          </defs>
+          <circle cx="740" cy="118" r="160" fill="url(#altair-halo)" />
+          {Array.from({length: 16}, (_, i) => <path key={i} d={`M${-150+i*14} ${510+i*16} C210 ${150+i*18}, 365 ${700-i*10}, 600 ${340+i*11} S870 ${80+i*15}, 1150 ${140+i*19}`} stroke="#8eabd0" strokeOpacity={.09+i*.008} />)}
+          <path className="altair-trail" d="M300 580 C270 400 620 500 617 335 S670 175 740 118" stroke="url(#altair-route)" strokeWidth="2" pathLength="1" />
+          <path d="M740 102L743 115L756 118L743 121L740 134L737 121L724 118L737 115Z" fill="#eef3ff" />
+          <circle cx="740" cy="118" r="26" stroke="#cedbff" strokeOpacity=".25" />
+        </svg>
+        <div className="altair-cover-title"><h3>ALTAIR<span aria-hidden="true">✦</span></h3><p>A little clarity.<br /><em>A world of possibility.</em></p></div>
+        <span className="altair-cover-note">YOUR NEXT CHAPTER STARTS WITH DIRECTION.</span>
       </div>
-      <div className="project-copy">
-        <p className="section-kicker">Flagship project <span className="small-star">✦</span></p>
-        <h3>ALTAIR</h3><p className="project-tagline">Find your way forward.</p>
-        <p>An AI-powered product for personalised education and career roadmaps. Built to turn AI responses into structured, validated guidance.</p>
-        <Tags items={["React", "TypeScript", "Node.js", "Express", "Gemini", "Tailwind"]} />
-        <div className="project-links"><a className="hero-primary-link" href="https://altair-guide.vercel.app/" target="_blank" rel="noopener noreferrer">Explore ALTAIR</a><a className="text-link" href="https://github.com/yugam2001/altair" target="_blank" rel="noopener noreferrer">View source</a></div>
+      <div className="altair-caption">
+        <div><p className="section-kicker">THE IDEA</p><p className="altair-summary">Turn “what’s next?”<br />into a way forward.</p></div>
+        <div className="altair-context"><p>Personalised education and career roadmaps, powered by AI and grounded in structured, validated guidance.</p><Tags items={["React", "TypeScript", "Node.js", "Gemini"]} /></div>
+        <div className="altair-actions"><a className="hero-primary-link" href="https://altair-guide.vercel.app/" target="_blank" rel="noopener noreferrer">Explore ALTAIR</a><a className="text-link" href="https://github.com/yugam2001/altair" target="_blank" rel="noopener noreferrer">View source</a></div>
       </div>
     </article>
     <div className="project-details" data-reveal>
@@ -103,7 +111,7 @@ export function AIJourney() {
       <ol className="journey-steps">
         <li data-reveal><span className="journey-label">FOUNDATION / 2023</span><h3>B.E. in Computer Science Engineering</h3><p>Chitkara University</p><span className="journey-detail">CGPA: approximately 9.48 / 10</span></li>
         <li data-reveal><span className="journey-label">APPLYING / ALTAIR</span><h3>From AI output to a usable product</h3><p>Exploring structured generation, validation, and responsible AI through an education and career roadmap product.</p><a className="text-link" href="#projects">See the project</a></li>
-        <li data-reveal><span className="journey-label">NEXT / OCTOBER 2026</span><h3>Master of Artificial Intelligence</h3><p>La Trobe University · Melbourne, Australia</p><span className="journey-detail">Beginning October 2026</span></li>
+        <li data-reveal><span className="journey-label">NEXT / NOVEMBER 2026</span><h3>Master of Artificial Intelligence</h3><p>La Trobe University · Melbourne, Australia</p><span className="journey-detail">Beginning November 2026</span></li>
       </ol>
     </div>
   </div>;
