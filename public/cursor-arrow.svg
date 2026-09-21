@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="-3 -3 54 54">
+  <defs>
+    <radialGradient id="halo">
+      <stop offset="0" stop-color="#80b7ff" stop-opacity=".32"/>
+      <stop offset=".35" stop-color="#5595f0" stop-opacity=".19"/>
+      <stop offset=".7" stop-color="#3775d5" stop-opacity=".06"/>
+      <stop offset="1" stop-color="#3775d5" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="edge-glow" x="-100%" y="-100%" width="300%" height="300%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="1.1"/>
+    </filter>
+    <path id="arrow" d="M18.3 15.2 31.7 20.1C33.5 20.8 33.6 22.3 31.7 22.9L25.8 24.7Q25 25 24.7 25.8L22.9 31.7C22.3 33.6 20.8 33.5 20.1 31.7L15.2 18.3C14.4 16 16 14.4 18.3 15.2Z"/>
+  </defs>
+  <circle cx="24" cy="24" r="26" fill="url(#halo)"/>
+  <use href="#arrow" fill="none" stroke="#c5dfff" stroke-width="2.4" opacity=".65" filter="url(#edge-glow)"/>
+  <use href="#arrow" fill="#05080d" stroke="#f5f7fc" stroke-width="1.65" stroke-linejoin="round"/>
+</svg>
